@@ -85,4 +85,31 @@ public class MemberController {
         memberService.update(memberDTO);
         return "redirect:/member/" + memberDTO.getId();
     }
+
+    //redirect 뒤에는 반드시 '주소'가 온다.
+    //html 파일이 오지 않는다.
+    @GetMapping("/member/delete/{id}")
+    public String deleteById(@PathVariable Long id){
+        memberService.deleteById(id);
+        return "redirect:/member/";
+    }
+
+    @GetMapping("/member/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "index";
+    }
+
+    //ajax를 사용하면 @ResponseBody를 사용해야한다.
+    @PostMapping("/member/email-check")
+    public @ResponseBody String emailCheck(@RequestParam("memberEmail") String memberEmail)
+    {
+        System.out.println("memberEmail = " + memberEmail);
+        String checkResult = memberService.emailCheck(memberEmail);
+        return checkResult;
+
+
+
+    }
+
 }
