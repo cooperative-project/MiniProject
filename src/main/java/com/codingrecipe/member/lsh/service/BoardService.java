@@ -55,4 +55,15 @@ public class BoardService {
             return null;
         }
     }
+
+    //save 메서드 id값이 없으면 insert, 있으면 update
+    public BoardDTO update(BoardDTO boardDTO) {
+        BoardEntity boardEntity = BoardEntity.toUpdateEntity(boardDTO);
+        boardRepository.save(boardEntity);
+        return findById(boardDTO.getId());
+    }
+
+    public void delete(Long id) {
+        boardRepository.deleteById(id);
+    }
 }

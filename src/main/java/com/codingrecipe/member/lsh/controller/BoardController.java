@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/board")
+@RequestMapping("/board/board")
 @RequiredArgsConstructor
 //@RequestMapping("/board")를 선언해 놓으면
 //주소 설정할때 /board/save 이런식으로 안해도됨.
 public class BoardController {
     private final BoardService boardService;
-    @GetMapping("/board/write")
+    @GetMapping("write")
     public String writeForm(){
         return "/board/write";
     }
@@ -28,14 +28,14 @@ public class BoardController {
     //DTO가 있으면 @ModelAttribute 어노테이션을 이용해 객체를 매개변수로 받을 수 있다.
     //DTO클래스에 있는 필드값이랑 write.html 에 name 값이랑 동일하다면
     // Spring이 해당 필드에 대해 setter 알아서 호출해서 각각 담아준다.
-    @PostMapping("/board/write")
+    @PostMapping("/write")
     public String write(@ModelAttribute BoardDTO boardDTO){
         System.out.println("boardDTO = " + boardDTO);
         boardService.save(boardDTO);
         return "index";
     }
 
-    @GetMapping("/board/list")
+    @GetMapping("list")
     public String findAll(Model model){
         //DB에서 현재 게시글 데이터를 가져와서 list.html에 보여준다.
         List<BoardDTO> boardDTOList = boardService.findALL();
@@ -43,7 +43,7 @@ public class BoardController {
         return "/board/list";
     }
 
-    @GetMapping("/board/{id}")
+    @GetMapping("/{id}")
     public String findById(@PathVariable Long id, Model model){
         /*
             해당 게시판의 조회수를 하나 올리고
@@ -54,4 +54,27 @@ public class BoardController {
         model.addAttribute("board",boardDTO);
         return "/board/detail";
     }
+
+    @GetMapping("/update/{id}")
+    public String updateForm(@PathVariable Long id, Model model){
+        BoardDTO boardDTO = boardService.findById(id);
+        model.addAttribute("boardUpdate", boardDTO);
+        return "/board/update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute BoardDTO boardDTO, Model model){
+        BoardDTO board = boardService.update(boardDTO);
+        model.addAttribute("board",board);
+        return "/board/detail";
+        //return "redirect"/board/" + boardDTO.getId(); ->이러면 수정을 햇는데 조회수가 올라가는 현상 발생
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id){
+        boardService.delete(id);
+        return "redirect:/";
+    }
+
 }
+
