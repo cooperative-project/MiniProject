@@ -9,5 +9,23 @@
 <a href="member/save">회원가입</a>
 <a href="member/login">로그인</a>
 <a href="/member/">회원목록</a>
+<button onclick="saveReq()">글 작성</button>
+<button onclick="listReq()">글 목록</button>
 </body>
+<script>
+    /*
+    function saveReq() {
+
+    }
+밑에 함수선언 방식이랑 동일 밑에는 es6버전 함수정의방법
+    */
+
+    const saveReq = () =>{
+        location.href = "/board/board/write";
+    }
+    const listReq = () =>{
+        location.href = "/board/board/list";
+    }
+
+</script>
 </html>
