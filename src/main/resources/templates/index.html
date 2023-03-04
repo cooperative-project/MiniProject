@@ -11,6 +11,7 @@
 <a href="/member/">회원목록</a>
 <button onclick="saveReq()">글 작성</button>
 <button onclick="listReq()">글 목록</button>
+<button onclick="pagingReq()">페이징목록</button>
 </body>
 <script>
     /*
@@ -21,10 +22,13 @@
     */
 
     const saveReq = () =>{
-        location.href = "/board/board/write";
+        location.href = "/board/board/save";
     }
     const listReq = () =>{
         location.href = "/board/board/list";
+    }
+    const pagingReq = () =>{
+        location.href = "/board/board/paging";
     }
 
 </script>
